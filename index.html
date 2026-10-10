@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light">
+<title>一份神秘礼物</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%234C6FFF'/%3E%3Cstop offset='1' stop-color='%238B6CFF'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='24' height='24' rx='6' fill='url(%23g)'/%3E%3Cpath d='M7 11h10v6a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2v-6z' fill='white'/%3E%3Cpath d='M12 11v8M4.5 9.5h15v3h-15z' stroke='white' stroke-width='1.6' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
+<style>
+  /* ============ 基础 ============ */
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html, body { height: 100%; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "HarmonyOS Sans SC",
+      "Microsoft YaHei", "Segoe UI", sans-serif;
+    color: #1a2340;
+    background:
+      radial-gradient(1200px 700px at 15% -8%, rgba(120, 156, 255, 0.28), transparent 60%),
+      radial-gradient(1000px 640px at 105% 8%, rgba(167, 139, 250, 0.30), transparent 62%),
+      radial-gradient(900px 620px at 50% 112%, rgba(122, 203, 255, 0.22), transparent 60%),
+      linear-gradient(168deg, #eef3fc 0%, #f2edff 52%, #eaf6ff 100%);
+    background-attachment: fixed;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px 20px;
+    overflow-x: hidden;
+  }
+
+  /* 柔和光晕装饰（纯背景层，不承载信息） */
+  .glow { position: fixed; border-radius: 50%; filter: blur(70px); opacity: 0.5; pointer-events: none; z-index: 0; }
+  .glow-a { width: 320px; height: 320px; left: -80px; top: -60px; background: #7c9bff; }
+  .glow-b { width: 300px; height: 300px; right: -70px; top: 24%; background: #a78bfa; }
+  .glow-c { width: 340px; height: 340px; left: 30%; bottom: -120px; background: #7fd0ff; }
+
+  /* ============ 毛玻璃主卡片 ============ */
+  .card {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 420px;
+    padding: 48px 34px 40px;
+    border-radius: 32px;
+    background: rgba(255, 255, 255, 0.55);
+    -webkit-backdrop-filter: blur(26px) saturate(1.5);
+    backdrop-filter: blur(26px) saturate(1.5);
+    border: 1px solid rgba(255, 255, 255, 0.85);
+    box-shadow:
+      0 24px 60px -18px rgba(76, 111, 255, 0.28),
+      0 8px 24px -12px rgba(139, 108, 255, 0.18),
+      inset 0 1px 0 rgba(255, 255, 255, 0.9);
+    text-align: center;
+    animation: rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  /* ============ 礼物图标 ============ */
+  .gift {
+    width: 88px; height: 88px;
+    margin: 0 auto 26px;
+    border-radius: 26px;
+    display: flex; align-items: center; justify-content: center;
+    background: linear-gradient(145deg, #6f8dff 0%, #9a7bff 100%);
+    box-shadow:
+      0 18px 36px -12px rgba(104, 120, 255, 0.55),
+      inset 0 1px 0 rgba(255, 255, 255, 0.45);
+  }
+  .gift svg { width: 46px; height: 46px; display: block; }
+
+  /* ============ 文字 ============ */
+  h1 {
+    font-size: 30px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    line-height: 1.35;
+    color: #182247;
+  }
+  .sub {
+    margin: 14px auto 0;
+    max-width: 300px;
+    font-size: 15px;
+    line-height: 1.7;
+    color: #5a6586;
+  }
+
+  /* ============ 按钮 ============ */
+  .btn-row { margin-top: 34px; display: flex; flex-direction: column; gap: 14px; }
+  .btn {
+    display: block;
+    width: 100%;
+    padding: 16px 20px;
+    border-radius: 18px;
+    font-size: 17px;
+    font-weight: 600;
+    font-family: inherit;
+    letter-spacing: 2px;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    border: none;
+    transition: transform 0.18s ease, box-shadow 0.18s ease, opacity 0.18s ease;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+  .btn:active { transform: scale(0.97); }
+  .btn-primary {
+    color: #ffffff;
+    background: linear-gradient(135deg, #4c6fff 0%, #8b6cff 100%);
+    box-shadow: 0 16px 32px -10px rgba(96, 110, 255, 0.5);
+  }
+  .btn-primary:hover { box-shadow: 0 20px 40px -10px rgba(96, 110, 255, 0.6); }
+  .btn-ghost {
+    color: #3d4a75;
+    background: rgba(255, 255, 255, 0.62);
+    border: 1px solid rgba(140, 150, 210, 0.45);
+  }
+  .btn-ghost:hover { background: rgba(255, 255, 255, 0.85); }
+
+  /* 微信内唤起提示（醒目小字，毛玻璃风格） */
+  .tip {
+    margin-top: 18px;
+    padding: 12px 16px;
+    border-radius: 14px;
+    font-size: 12.5px;
+    line-height: 1.7;
+    color: #4a5a8a;
+    letter-spacing: 0.3px;
+    background: rgba(255, 255, 255, 0.42);
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.55);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+  }
+
+  /* ============ 隐私声明 ============ */
+  .privacy {
+    margin-top: 30px;
+    font-size: 12px;
+    color: #8a93b0;
+    letter-spacing: 0.3px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .privacy svg { width: 13px; height: 13px; opacity: 0.7; }
+
+  /* ============ 动效 ============ */
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .card { animation: none; }
+    .btn { transition: none; }
+  }
+
+  /* 窄屏微调 */
+  @media (max-width: 360px) {
+    .card { padding: 38px 22px 32px; }
+    h1 { font-size: 26px; }
+  }
+</style>
+</head>
+<body>
+  <div class="glow glow-a" aria-hidden="true"></div>
+  <div class="glow glow-b" aria-hidden="true"></div>
+  <div class="glow glow-c" aria-hidden="true"></div>
+
+  <!-- ============ 视图：礼物落地页 ============ -->
+  <main class="card" role="main">
+    <div class="gift" aria-hidden="true">
+      <svg viewBox="0 0 48 48" fill="none">
+        <path d="M9 21h30v17a4 4 0 0 1-4 4H13a4 4 0 0 1-4-4V21z" fill="white" fill-opacity="0.96"/>
+        <path d="M24 21v21M8 15h32v8H8z" stroke="white" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M15 15c-3.6 0-6-2.2-6-5s2.4-5.4 6-4c2.6 1 4.4 4.4 9 4 3.4-.3 5 2 5 4.6-4 0.5-8.4.4-14 .4z" fill="white" fill-opacity="0.7"/>
+      </svg>
+    </div>
+
+    <h1>你收到一份<br>神秘礼物</h1>
+    <p class="sub">打开它，看看朋友为你准备了什么惊喜。</p>
+
+    <div class="btn-row">
+      <!-- 打开看看：Android 走 intent://（未安装自动回退下载页），iOS 走透明锁 scheme -->
+      <a class="btn btn-primary" id="openBtn" href="javascript:void(0)" role="button">打开看看</a>
+      <!-- 微信内唤起限制提示 -->
+      <p class="tip">如果点击无反应，请点击右上角'...'选择在浏览器中打开，或直接使用系统浏览器扫码打开。</p>
+      <!-- 下载兜底：占位链接，部署时替换为真实应用商店/下载地址 -->
+      <a class="btn btn-ghost" id="downloadBtn" href="https://example.com/transparentlock/download">下载 App</a>
+    </div>
+
+    <p class="privacy">
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M12 3 4 6v5c0 5 3.4 9.2 8 10 4.6-.8 8-5 8-10V6l-8-3z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+        <path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      本页面不收集任何数据
+    </p>
+  </main>
+
+<script>
+(function () {
+  'use strict';
+  // ============ 配置 ============
+  // 下载兜底地址（占位）：部署时替换为真实应用商店 / APK 下载链接
+  var DOWNLOAD_URL = 'https://example.com/transparentlock/download';
+  // App scheme 与包名（与 App 端 AndroidManifest intent-filter 一致）
+  var SCHEME = 'transparentlock';
+  var PACKAGE = 'com.example.transparentlock';
+
+  // ============ 读取二维码参数 ============
+  // 二维码内容 = 本页 URL + ?payload=<二维码 JSON>；无参数时仍可正常唤起
+  function getPayload() {
+    try {
+      return new URLSearchParams(window.location.search).get('payload') || '';
+    } catch (e) {
+      return '';
+    }
+  }
+
+  function buildOpenUrl() {
+    var payload = getPayload();
+    var query = payload
+      ? 'open?payload=' + encodeURIComponent(payload)
+      : 'open';
+    var isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+    if (isIOS) {
+      // iOS 无 intent:// 支持，直接用 scheme 唤起（无安装回退，靠下载按钮兜底）
+      return SCHEME + '://' + query;
+    }
+    // Android：intent:// 协议；未安装 App 时由系统跳 browser_fallback_url（下载页）
+    var fallback = encodeURIComponent(DOWNLOAD_URL);
+    return 'intent://' + query +
+      '#Intent;scheme=' + SCHEME +
+      ';package=' + PACKAGE +
+      ';S.browser_fallback_url=' + fallback +
+      ';end';
+  }
+
+  document.getElementById('openBtn').addEventListener('click', function () {
+    window.location.href = buildOpenUrl();
+  });
+  document.getElementById('downloadBtn').addEventListener('click', function () {
+    // 占位链接：部署时替换
+    window.location.href = DOWNLOAD_URL;
+  });
+})();
+</script>
+</body>
+</html>
